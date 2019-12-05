@@ -29,12 +29,12 @@ def login(username, password):
 
     if 'success' in ret.text:
         print('登录成功，可关闭程序')
+    else:
+        print('登录失败，请检查用户名和密码是否正确')
 
 
 if __name__ == '__main__':
     try:
         login(sys.argv[1], sys.argv[2])
     except:
-        print('登录失败，请检查:')
-        print('1.是否已经在线')
-        print('2.用户名和密码是否正确')
+        print('登录失败，请检查是否已经在线')

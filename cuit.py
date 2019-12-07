@@ -17,22 +17,25 @@ class Connect:
         self.password = password
         self.url = 'http://10.254.241.19/'
         self.login_url = 'http://10.254.241.19/eportal/InterFace.do?method=login'
-        self.logout_url = 'http://10.254.241.19:8080/eportal/interface/index_files/pc/login_bch.js'
         self.online_info_url = 'http://10.254.241.19/eportal/InterFace.do?method=getOnlineUserInfo'
-        self.web_rul = 'https://www.baidu.com/'
         self.user_agent = 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Mobile Safari/537.36'
         self.userIndex = None
 
     def is_online(self):
         headers = {'User-Agent': self.user_agent}
         data = {'userIndex': self.userIndex}
-        ret = requests.post(self.online_info_url, headers=headers, data=data)
-        ret.encoding = ret.apparent_encoding
-        ret2dic = json.loads(ret.content)
-        if ret2dic['result'] == 'fail':
-            return False
-        else:
-            return True
+        while True:
+            try:
+                ret = requests.post(self.online_info_url, headers=headers, data=data)
+            except:
+                continue
+            else:
+                ret.encoding = ret.apparent_encoding
+                ret2dic = json.loads(ret.content)
+                if ret2dic['result'] == 'fail':
+                    return False
+                else:
+                    return True
 
     def get_info(self):
         headers = {'User-Agent': self.user_agent}

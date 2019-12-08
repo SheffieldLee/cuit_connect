@@ -52,16 +52,22 @@ class Connect:
                 'operatorUserId': '',
                 'validcode': '',
                 'passwordEncrypt': 'false'}
-        ret = requests.post(self.login_url, headers=headers, data=data)
-        ret.encoding = ret.apparent_encoding
-        ret2dic = json.loads(ret.content)
+        while True:
+            try:
+                ret = requests.post(self.login_url, headers=headers, data=data)
+            except:
+                continue
+            else:
+                ret.encoding = ret.apparent_encoding
+                ret2dic = json.loads(ret.content)
 
-        if ret2dic['result'] == 'success':
-            print('登录成功')
-        else:
-            print('登录失败')
-            print(ret2dic['message'])
-            sys.exit(1)
+                if ret2dic['result'] == 'success':
+                    print('登录成功')
+                    return
+                else:
+                    print('登录失败')
+                    print(ret2dic['message'])
+                    sys.exit(1)
 
     def stay_online(self):
         print('发送心跳包，维持在线中...')

@@ -60,14 +60,16 @@ class Connect:
             else:
                 ret.encoding = ret.apparent_encoding
                 ret2dic = json.loads(ret.content)
-
+                self.userIndex = ret2dic['userIndex']
                 if ret2dic['result'] == 'success':
                     print('登录成功')
                     return
-                else:
+                elif ret2dic['result'] == 'fail':
                     print('登录失败')
                     print(ret2dic['message'])
                     sys.exit(1)
+                else:
+                    continue
 
     def stay_online(self):
         print('发送心跳包，维持在线中...')

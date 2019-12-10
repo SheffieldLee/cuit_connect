@@ -27,20 +27,23 @@ class Connect:
         while True:
             try:
                 ret = requests.post(self.online_info_url, headers=headers, data=data)
-            except:
-                continue
-            else:
                 ret.encoding = ret.apparent_encoding
                 ret2dic = json.loads(ret.content)
                 if ret2dic['result'] == 'fail':
                     return False
                 else:
                     return True
+            except:
+                continue
 
     def get_info(self):
         headers = {'User-Agent': self.user_agent}
-        ret = requests.get(self.url, headers=headers)
-        return ret.text.split('\'')[1].split('?')[1]
+        while True:
+            try:
+                ret = requests.get(self.url, headers=headers)
+                return ret.text.split('\'')[1].split('?')[1]
+            except:
+                continue
 
     def login(self):
         headers = {'User-Agent': self.user_agent}
@@ -55,21 +58,18 @@ class Connect:
         while True:
             try:
                 ret = requests.post(self.login_url, headers=headers, data=data)
-            except:
-                continue
-            else:
                 ret.encoding = ret.apparent_encoding
                 ret2dic = json.loads(ret.content)
                 self.userIndex = ret2dic['userIndex']
                 if ret2dic['result'] == 'success':
                     print('登录成功')
                     return
-                elif ret2dic['result'] == 'fail':
+                else:
                     print('登录失败')
                     print(ret2dic['message'])
                     sys.exit(1)
-                else:
-                    continue
+            except:
+                continue
 
     def stay_online(self):
         print('发送心跳包，维持在线中...')

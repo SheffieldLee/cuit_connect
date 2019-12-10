@@ -3,7 +3,6 @@
 Created on 2019/12/5 005 下午 4:13
 @author: DapingLee
 @license : Copyright(C), CUIT
-@contact : ldp01@vip.qq.com
 """
 import json
 import sys
